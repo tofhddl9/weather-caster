@@ -2,11 +2,11 @@ package com.lgtm.weathercaster.di
 
 import android.content.Context
 import androidx.room.Room
-import com.lgtm.weathercaster.data.FooDataSource
-import com.lgtm.weathercaster.data.FooRepository
-import com.lgtm.weathercaster.data.FooRepositoryImpl
-import com.lgtm.weathercaster.data.local.FooDatabase
-import com.lgtm.weathercaster.data.local.FooLocalDataSource
+import com.lgtm.weathercaster.data.WeatherDataSource
+import com.lgtm.weathercaster.domain.WeatherRepository
+import com.lgtm.weathercaster.data.WeatherRepositoryImpl
+import com.lgtm.weathercaster.data.local.WeatherDatabase
+import com.lgtm.weathercaster.data.local.WeatherLocalDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,27 +23,27 @@ object AppModule {
     @Singleton
     @Provides
     fun provideFooLocalDataSource(
-        database: FooDatabase,
+        database: WeatherDatabase,
         ioDispatcher: CoroutineDispatcher
-    ): FooDataSource {
-        return FooLocalDataSource(database.fooDao(), ioDispatcher)
+    ): WeatherDataSource {
+        return WeatherLocalDataSource(database.weatherDao(), ioDispatcher)
     }
 
     @Singleton
     @Provides
     fun provideFooRepository(
-        localTasksDataSource: FooDataSource,
+        localTasksDataSource: WeatherDataSource,
         ioDispatcher: CoroutineDispatcher
-    ): FooRepository {
-        return FooRepositoryImpl(localTasksDataSource, ioDispatcher)
+    ): WeatherRepository {
+        return WeatherRepositoryImpl(localTasksDataSource, ioDispatcher)
     }
 
     @Singleton
     @Provides
-    fun provideDataBase(@ApplicationContext context: Context): FooDatabase {
+    fun provideDataBase(@ApplicationContext context: Context): WeatherDatabase {
         return Room.databaseBuilder(
             context.applicationContext,
-            FooDatabase::class.java,
+            WeatherDatabase::class.java,
             "Foo.db"
         ).build()
     }

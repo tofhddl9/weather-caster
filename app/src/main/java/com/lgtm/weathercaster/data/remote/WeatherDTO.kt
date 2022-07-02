@@ -1,6 +1,6 @@
 package com.lgtm.weathercaster.data.remote
 
-data class OpenWeatherDTO(
+data class WeatherDTO(
     val coord: CoordinateInfo? = null,
     val weather: List<WeatherInfo>? = null,
     val base: String? = null,
