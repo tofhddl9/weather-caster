@@ -1,4 +1,4 @@
-package com.lgtm.weathercaster.permission
+package com.lgtm.weathercaster.utils.permission
 
 import android.app.Activity
 import android.content.pm.PackageManager

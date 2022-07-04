@@ -20,36 +20,4 @@ import kotlinx.coroutines.Dispatchers
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Singleton
-    @Provides
-    fun provideFooLocalDataSource(
-        database: WeatherDatabase,
-        ioDispatcher: CoroutineDispatcher
-    ): WeatherDataSource {
-        return WeatherLocalDataSource(database.weatherDao(), ioDispatcher)
-    }
-
-    @Singleton
-    @Provides
-    fun provideFooRepository(
-        localTasksDataSource: WeatherDataSource,
-        ioDispatcher: CoroutineDispatcher
-    ): WeatherRepository {
-        return WeatherRepositoryImpl(localTasksDataSource, ioDispatcher)
-    }
-
-    @Singleton
-    @Provides
-    fun provideDataBase(@ApplicationContext context: Context): WeatherDatabase {
-        return Room.databaseBuilder(
-            context.applicationContext,
-            WeatherDatabase::class.java,
-            "Foo.db"
-        ).build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
-
 }

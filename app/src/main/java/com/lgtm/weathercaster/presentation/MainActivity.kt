@@ -1,4 +1,4 @@
-package com.lgtm.weathercaster
+package com.lgtm.weathercaster.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

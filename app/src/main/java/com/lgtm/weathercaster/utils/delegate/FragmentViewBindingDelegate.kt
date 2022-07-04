@@ -1,4 +1,4 @@
-package com.lgtm.weathercaster.delegate
+package com.lgtm.weathercaster.utils.delegate
 
 import android.view.View
 import androidx.fragment.app.Fragment

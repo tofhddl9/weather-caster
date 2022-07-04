@@ -7,9 +7,12 @@ interface WeatherService {
 
     @GET("weather")
     suspend fun getWeather(
-        @Query("q") q: String,
+        @Query("lat") lat: Float,
+        @Query("lon") lon: Float,
         @Query("appid") appId: String,
-        @Query("lang") lang: String,
-    ): WeatherDTO
+    ): WeatherDTO?
 
+    companion object {
+        const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    }
 }
