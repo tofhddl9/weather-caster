@@ -7,8 +7,8 @@ interface WeatherService {
 
     @GET("weather")
     suspend fun getWeather(
-        @Query("lat") lat: Float,
-        @Query("lon") lon: Float,
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
         @Query("appid") appId: String,
     ): WeatherDTO?
 

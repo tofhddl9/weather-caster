@@ -1,7 +1,5 @@
 package com.lgtm.weathercaster.di
 
-import android.content.Context
-import androidx.room.Room
 import com.lgtm.weathercaster.data.WeatherDataSource
 import com.lgtm.weathercaster.data.WeatherRepositoryImpl
 import com.lgtm.weathercaster.data.local.WeatherDatabase
@@ -13,21 +11,23 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.create
 
 // TODO. Use @Binds of Hilt
+
+@Qualifier
+annotation class LocalDataSource
+
+@Qualifier
+annotation class RemoteDataSource
+
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
+object RepositoryModule {
 
     @Singleton
     @Provides
@@ -48,24 +48,9 @@ abstract class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideWeatherApi(): WeatherService {
-        return Retrofit.Builder()
-            .baseUrl(WeatherService.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .client(OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BASIC
-                }).build()
-            )
-            .build()
-            .create()
-    }
-
-    @Singleton
-    @Provides
     fun provideWeatherRepository(
-        weatherLocalDataSource: WeatherDataSource,
-        weatherRemoteWeatherDataSource: WeatherDataSource,
+        @LocalDataSource weatherLocalDataSource: WeatherDataSource,
+        @RemoteDataSource weatherRemoteWeatherDataSource: WeatherDataSource,
         ioDispatcher: CoroutineDispatcher
     ): WeatherRepository {
         return WeatherRepositoryImpl(weatherLocalDataSource, weatherRemoteWeatherDataSource, ioDispatcher)
@@ -73,15 +58,25 @@ abstract class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideDataBase(@ApplicationContext context: Context): WeatherDatabase {
-        return Room.databaseBuilder(
-            context.applicationContext,
-            WeatherDatabase::class.java,
-            "Weather.db"
-        ).build()
-    }
-
-    @Singleton
-    @Provides
     fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class LocalDataSourceModule {
+
+    @LocalDataSource
+    @Binds
+    abstract fun bindLocalDataSource(impl: WeatherLocalDataSource): WeatherDataSource
+
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RemoteDataSourceModule {
+
+    @RemoteDataSource
+    @Binds
+    abstract fun bindRemoteDataSource(impl: WeatherRemoteDataSource): WeatherDataSource
+
 }

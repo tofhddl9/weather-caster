@@ -7,15 +7,6 @@
 
     <fragment
         android:id="@+id/main_fragment"
-        android:name="com.lgtm.weathercaster.presentation.MainFragment" >
-        <action
-            android:id="@+id/action_compass_fragment_to_mapFragment"
-            app:destination="@id/subFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/subFragment"
-        android:name="com.lgtm.weathercaster.SubFragment"
-        tools:layout="@layout/fragment_sub" />
+        android:name="com.lgtm.weathercaster.presentation.WeatherFragment" />
 
 </navigation>

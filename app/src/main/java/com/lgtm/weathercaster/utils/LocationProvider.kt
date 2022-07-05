@@ -8,6 +8,7 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 
@@ -16,7 +17,7 @@ interface LocationProvider {
 }
 
 @ExperimentalCoroutinesApi
-class LocationProviderImpl(
+class LocationProviderImpl @Inject constructor(
     private val application: Application,
     private val locationClient: FusedLocationProviderClient
 ) : LocationProvider {
