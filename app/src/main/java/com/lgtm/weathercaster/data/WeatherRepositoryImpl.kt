@@ -22,9 +22,9 @@ class WeatherRepositoryImpl @Inject constructor(
         fetchFromRemote: Boolean
     ): Flow<Response<WeatherVO>> {
         return flow {
-            emit(Response.Loading(true))
-            val cachedWeather = weatherLocalDataSource.getCurrentWeather(latitude, longitude)
-            emit(Response.Success(data = cachedWeather))
+//            emit(Response.Loading(true))
+//            val cachedWeather = weatherLocalDataSource.getCurrentWeather(latitude, longitude)
+//            emit(Response.Success(data = cachedWeather))
 
             val remoteWeather = weatherRemoteDataSource.getCurrentWeather(latitude, longitude)
             remoteWeather?.let {
