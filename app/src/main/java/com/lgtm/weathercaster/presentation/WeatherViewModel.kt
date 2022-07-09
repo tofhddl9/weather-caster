@@ -21,11 +21,6 @@ class WeatherViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(WeatherUiState())
     val uiState = _uiState.asStateFlow()
 
-    init {
-        Log.d("Doran", "@@@")
-        // getCurrentWeather()
-    }
-
     fun onEvent(event: WeatherUiEvent) {
         when (event) {
             WeatherUiEvent.Refresh -> {
@@ -37,26 +32,41 @@ class WeatherViewModel @Inject constructor(
     fun getCurrentWeather(
         fetchFromRemote: Boolean = false
     ) {
-        Log.d("Doran", "@")
         viewModelScope.launch {
             locationProvider.getCurrentLocation()?.also { location ->
                 repository.getCurrentWeather(
                     location.latitude,
                     location.longitude,
                     true,
-                ).firstOrNull()?.data?.also {
+                ).firstOrNull()?.data?.also { weather ->
+                    // 성공케이스
+                    // 여기서 서버데이터 처럼 구성해서 값 업데이트해주기
                     _uiState.value = _uiState.value.copy(
-                        weather = it
+                        weatherUiData = listOf(
+                            weather,
+                            weather,
+                            weather,
+                            weather,
+                            weather,
+                            weather,
+                            weather,
+                            weather,
+                            weather,
+                            weather,
+                            weather,
+                            weather,
+                        )
                     )
                 } ?: run {
+                    // 성공은 했지만 비어있음
                     _uiState.value = _uiState.value.copy(
-                        error = "1"
+                        loadWeatherErrorMessage = "1"
                     )
                 }
             } ?: run {
-                // location 실패시.
+                // location 로드 실패
                 _uiState.value = _uiState.value.copy(
-                    error = "1"
+                    loadWeatherErrorMessage = "1"
                 )
                 Log.d("Doran", "!!!")
             }
