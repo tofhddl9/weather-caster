@@ -3,9 +3,9 @@ package com.lgtm.weathercaster.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lgtm.weathercaster.data.vo.mapToCurrentWeatherSummaryVO
-import com.lgtm.weathercaster.data.vo.mapToDailyWeatherVO
-import com.lgtm.weathercaster.data.vo.mapToHourlyWeatherVO
+import com.lgtm.weathercaster.data.vo.item.mapToCurrentWeatherSummaryVO
+import com.lgtm.weathercaster.data.vo.item.mapToDailyWeatherVO
+import com.lgtm.weathercaster.data.vo.item.mapToHourlyWeatherVO
 import com.lgtm.weathercaster.domain.WeatherRepository
 import com.lgtm.weathercaster.utils.LocationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel

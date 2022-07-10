@@ -1,8 +1,7 @@
 package com.lgtm.weathercaster.presentation.widgets.viewholder
 
 import androidx.viewbinding.ViewBinding
-import com.lgtm.weathercaster.data.vo.CurrentWeatherSummaryVO
-import com.lgtm.weathercaster.data.vo.WeatherItemVO
+import com.lgtm.weathercaster.data.vo.item.WeatherItemVO
 import com.lgtm.weathercaster.databinding.ViewWeatherSummaryBinding
 import com.lgtm.weathercaster.presentation.widgets.WeatherViewType
 

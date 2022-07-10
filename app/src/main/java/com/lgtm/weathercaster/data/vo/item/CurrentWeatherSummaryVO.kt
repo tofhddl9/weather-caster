@@ -1,5 +1,6 @@
-package com.lgtm.weathercaster.data.vo
+package com.lgtm.weathercaster.data.vo.item
 
+import com.lgtm.weathercaster.data.vo.WeatherVO
 import com.lgtm.weathercaster.presentation.widgets.WeatherViewType
 
 data class CurrentWeatherSummaryVO(

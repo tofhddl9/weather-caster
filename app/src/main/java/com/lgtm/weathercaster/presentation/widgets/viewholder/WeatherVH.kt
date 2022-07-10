@@ -2,8 +2,7 @@ package com.lgtm.weathercaster.presentation.widgets.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.lgtm.weathercaster.data.vo.WeatherItemVO
-import com.lgtm.weathercaster.data.vo.WeatherVO
+import com.lgtm.weathercaster.data.vo.item.WeatherItemVO
 
 
 // 결국 얘네를 어떻게 구성해서 화면에 그릴것인가?
