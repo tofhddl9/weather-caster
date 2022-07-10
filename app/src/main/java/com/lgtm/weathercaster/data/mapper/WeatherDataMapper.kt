@@ -1,8 +1,8 @@
 package com.lgtm.weathercaster.data.mapper
 
-import com.lgtm.weathercaster.data.WeatherDataVO
-import com.lgtm.weathercaster.data.WeatherMetaDataVO
-import com.lgtm.weathercaster.data.WeatherVO
+import com.lgtm.weathercaster.data.vo.WeatherDataVO
+import com.lgtm.weathercaster.data.vo.WeatherMetaDataVO
+import com.lgtm.weathercaster.data.vo.WeatherVO
 import com.lgtm.weathercaster.data.local.WeatherEntity
 import com.lgtm.weathercaster.data.remote.DailyWeatherData
 import com.lgtm.weathercaster.data.remote.HourlyWeatherData

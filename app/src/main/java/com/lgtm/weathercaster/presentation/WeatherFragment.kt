@@ -2,9 +2,7 @@ package com.lgtm.weathercaster.presentation
 
 import android.Manifest
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -14,12 +12,10 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import com.lgtm.weathercaster.R
 import com.lgtm.weathercaster.databinding.FragmentWeatherBinding
 import com.lgtm.weathercaster.presentation.widgets.WeatherAdapter
 import com.lgtm.weathercaster.utils.delegate.viewBinding
-import com.lgtm.weathercaster.utils.permission.PermissionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -59,7 +55,7 @@ class WeatherFragment: Fragment(R.layout.fragment_weather) {
         val weatherAdapter = WeatherAdapter()
         lifecycleScope.launch {
             viewModel.uiState.flowWithLifecycle(lifecycle).collect {
-                weatherAdapter.submitList(it.weatherUiData)
+                weatherAdapter.submitList(it.weatherWidgets)
             }
         }
 

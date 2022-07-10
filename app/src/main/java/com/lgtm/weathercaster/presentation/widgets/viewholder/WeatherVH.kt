@@ -1,11 +1,9 @@
 package com.lgtm.weathercaster.presentation.widgets.viewholder
 
-import android.content.Context
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.lgtm.weathercaster.data.WeatherVO
-import com.lgtm.weathercaster.presentation.WeatherUiState
+import com.lgtm.weathercaster.data.vo.WeatherItemVO
+import com.lgtm.weathercaster.data.vo.WeatherVO
 
 
 // 결국 얘네를 어떻게 구성해서 화면에 그릴것인가?
@@ -16,7 +14,7 @@ abstract class WeatherVH(
     viewBinding: ViewBinding,
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
-    abstract fun bindData(data: WeatherVO)
+    abstract fun bindData(data: WeatherItemVO)
 
     abstract val viewType: Int
 

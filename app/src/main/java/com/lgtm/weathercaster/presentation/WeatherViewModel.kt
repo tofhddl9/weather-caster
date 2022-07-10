@@ -3,6 +3,9 @@ package com.lgtm.weathercaster.presentation
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lgtm.weathercaster.data.vo.mapToCurrentWeatherSummaryVO
+import com.lgtm.weathercaster.data.vo.mapToDailyWeatherVO
+import com.lgtm.weathercaster.data.vo.mapToHourlyWeatherVO
 import com.lgtm.weathercaster.domain.WeatherRepository
 import com.lgtm.weathercaster.utils.LocationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,19 +45,16 @@ class WeatherViewModel @Inject constructor(
                     // 성공케이스
                     // 여기서 서버데이터 처럼 구성해서 값 업데이트해주기
                     _uiState.value = _uiState.value.copy(
-                        weatherUiData = listOf(
-                            weather,
-                            weather,
-                            weather,
-                            weather,
-                            weather,
-                            weather,
-                            weather,
-                            weather,
-                            weather,
-                            weather,
-                            weather,
-                            weather,
+                        weatherWidgets = listOf(
+                            weather.mapToCurrentWeatherSummaryVO(),
+                            weather.mapToCurrentWeatherSummaryVO(),
+                            weather.mapToCurrentWeatherSummaryVO(),
+                            weather.mapToDailyWeatherVO(),
+                            weather.mapToDailyWeatherVO(),
+                            weather.mapToDailyWeatherVO(),
+                            weather.mapToHourlyWeatherVO(),
+                            weather.mapToHourlyWeatherVO(),
+                            weather.mapToHourlyWeatherVO(),
                         )
                     )
                 } ?: run {

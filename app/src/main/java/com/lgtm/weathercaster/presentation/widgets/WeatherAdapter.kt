@@ -1,29 +1,32 @@
 package com.lgtm.weathercaster.presentation.widgets
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.lgtm.weathercaster.data.WeatherVO
+import com.lgtm.weathercaster.data.vo.WeatherItemVO
 import com.lgtm.weathercaster.databinding.ViewWeatherSummaryBinding
-import com.lgtm.weathercaster.presentation.WeatherUiState
 import com.lgtm.weathercaster.presentation.widgets.viewholder.WeatherVH
-import com.lgtm.weathercaster.presentation.widgets.viewholder.WeatherSummaryVH
+import com.lgtm.weathercaster.presentation.widgets.viewholder.CurrentWeatherSummaryVH
+import com.lgtm.weathercaster.presentation.widgets.viewholder.DailyWeatherSummaryVH
+import com.lgtm.weathercaster.presentation.widgets.viewholder.HourlyWeatherSummaryVH
 
-class ViewHolderCreator
-
-class WeatherAdapter : ListAdapter<WeatherVO, WeatherVH>(WeatherDiffCallback()) {
+class WeatherAdapter : ListAdapter<WeatherItemVO, WeatherVH>(WeatherDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherVH {
         return when (viewType) {
-            WeatherViewType.WEATHER_VIEW_TYPE_1 -> {
-                WeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
+            WeatherViewType.CURRENT_WEATHER_SUMMARY -> {
+                CurrentWeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
             }
-            WeatherViewType.WEATHER_VIEW_TYPE_2 -> {
-                WeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
+            WeatherViewType.DAILY_WEATHER_SUMMARY -> {
+                DailyWeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
+            }
+            WeatherViewType.HOURLY_WEATHER_SUMMARY -> {
+                HourlyWeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
             }
             else -> {
-                WeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
+                CurrentWeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
             }
         }
     }
@@ -31,16 +34,21 @@ class WeatherAdapter : ListAdapter<WeatherVO, WeatherVH>(WeatherDiffCallback()) 
     override fun onBindViewHolder(holder: WeatherVH, position: Int) {
         holder.bindData(getItem(position))
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return getItem(position).itemId
+    }
 }
 
 
-class WeatherDiffCallback : DiffUtil.ItemCallback<WeatherVO>() {
+class WeatherDiffCallback : DiffUtil.ItemCallback<WeatherItemVO>() {
 
-    override fun areItemsTheSame(oldItem: WeatherVO, newItem: WeatherVO): Boolean {
-        return oldItem.current == newItem.current
+    override fun areItemsTheSame(oldItem: WeatherItemVO, newItem: WeatherItemVO): Boolean {
+        return oldItem.itemId == newItem.itemId
     }
 
-    override fun areContentsTheSame(oldItem: WeatherVO, newItem: WeatherVO): Boolean {
+    @SuppressLint("DiffUtilEquals")
+    override fun areContentsTheSame(oldItem: WeatherItemVO, newItem: WeatherItemVO): Boolean {
         return oldItem == newItem
     }
 

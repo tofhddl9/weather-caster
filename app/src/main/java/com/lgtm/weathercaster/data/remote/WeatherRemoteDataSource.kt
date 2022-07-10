@@ -1,7 +1,7 @@
 package com.lgtm.weathercaster.data.remote
 
 import com.lgtm.weathercaster.data.WeatherDataSource
-import com.lgtm.weathercaster.data.WeatherVO
+import com.lgtm.weathercaster.data.vo.WeatherVO
 import com.lgtm.weathercaster.data.mapper.mapToWeatherVO
 import javax.inject.Inject
 

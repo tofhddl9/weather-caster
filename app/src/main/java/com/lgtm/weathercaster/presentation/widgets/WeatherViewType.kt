@@ -2,7 +2,8 @@ package com.lgtm.weathercaster.presentation.widgets
 
 object WeatherViewType {
 
-    const val WEATHER_VIEW_TYPE_1 = 1
-    const val WEATHER_VIEW_TYPE_2 = 2
+    const val CURRENT_WEATHER_SUMMARY = 1
+    const val DAILY_WEATHER_SUMMARY = 2
+    const val HOURLY_WEATHER_SUMMARY = 3
 
 }

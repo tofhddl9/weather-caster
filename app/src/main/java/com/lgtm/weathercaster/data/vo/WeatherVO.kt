@@ -1,4 +1,4 @@
-package com.lgtm.weathercaster.data
+package com.lgtm.weathercaster.data.vo
 
 data class WeatherVO(
     val current: WeatherDataVO? = null,
