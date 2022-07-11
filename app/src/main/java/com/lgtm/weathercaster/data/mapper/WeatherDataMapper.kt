@@ -34,7 +34,7 @@ private fun WeatherData.mapToWeatherDataVO() = WeatherDataVO(
 private fun WeatherMainData.mapToWeatherMetaDataVO() = WeatherMetaDataVO(
     id = id,
     description = "$main($description)",
-    icon = icon
+    icon = "https://openweathermap.org/img/wn/$icon@2x.png"
 )
 
 private fun List<DailyWeatherData>.mapToDailyWeatherDataVO() = this.map {

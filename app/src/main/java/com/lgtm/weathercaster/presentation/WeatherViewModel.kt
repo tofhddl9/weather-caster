@@ -50,8 +50,6 @@ class WeatherViewModel @Inject constructor(
                             weather.mapToCurrentWeatherSummaryVO(),
                             weather.mapToCurrentWeatherSummaryVO(),
                             weather.mapToDailyWeatherVO(),
-                            weather.mapToDailyWeatherVO(),
-                            weather.mapToDailyWeatherVO(),
                             weather.mapToHourlyWeatherVO(),
                             weather.mapToHourlyWeatherVO(),
                             weather.mapToHourlyWeatherVO(),
