@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="#eeeeee"
+    app:cardBackgroundColor="#99000000"
+    app:cardElevation="0dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -19,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:text="오늘 시간대별 날씨"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_marginBottom="12dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +32,7 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
+            android:background="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title"
@@ -45,6 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:nestedScrollingEnabled="false"
             tools:listitem="@layout/item_hourly_weather"
             tools:itemCount="6"/>
 

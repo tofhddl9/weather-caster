@@ -67,6 +67,7 @@ class WeatherFragment: Fragment(R.layout.fragment_weather) {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(SpaceItemDecoration(8, afterLast = true))
         }
+
     }
 
     private fun observeViewModel() {

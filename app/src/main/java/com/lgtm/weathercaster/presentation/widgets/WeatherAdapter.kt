@@ -6,20 +6,21 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lgtm.weathercaster.data.vo.item.WeatherItemVO
+import com.lgtm.weathercaster.databinding.ViewCurrentWeatherSummaryBinding
 import com.lgtm.weathercaster.databinding.ViewDailyWeatherSummaryBinding
 import com.lgtm.weathercaster.databinding.ViewHourlyWeatherSummaryBinding
-import com.lgtm.weathercaster.databinding.ViewWeatherSummaryBinding
 import com.lgtm.weathercaster.presentation.widgets.viewholder.WeatherVH
 import com.lgtm.weathercaster.presentation.widgets.viewholder.CurrentWeatherSummaryVH
 import com.lgtm.weathercaster.presentation.widgets.viewholder.DailyWeatherSummaryVH
 import com.lgtm.weathercaster.presentation.widgets.viewholder.HourlyWeatherSummaryVH
+import java.lang.IllegalArgumentException
 
 class WeatherAdapter : ListAdapter<WeatherItemVO, WeatherVH>(WeatherDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherVH {
         return when (viewType) {
             WeatherViewType.CURRENT_WEATHER_SUMMARY -> {
-                CurrentWeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
+                CurrentWeatherSummaryVH(ViewCurrentWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
             }
             WeatherViewType.DAILY_WEATHER_SUMMARY -> {
                 DailyWeatherSummaryVH(ViewDailyWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -28,7 +29,7 @@ class WeatherAdapter : ListAdapter<WeatherItemVO, WeatherVH>(WeatherDiffCallback
                 HourlyWeatherSummaryVH(ViewHourlyWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
             }
             else -> {
-                CurrentWeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
+                throw IllegalArgumentException("$viewType is unknown type")
             }
         }
     }

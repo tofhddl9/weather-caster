@@ -79,8 +79,12 @@ dependencies {
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.0'
 
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
     // 3rd-party libs
     debugImplementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
+
+    implementation 'com.airbnb.android:lottie:3.0.7'
 
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"

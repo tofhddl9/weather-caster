@@ -49,6 +49,7 @@ class WeatherViewModel @Inject constructor(
                             weather.mapToCurrentWeatherSummaryVO(),
                             weather.mapToHourlyWeatherVO(),
                             weather.mapToDailyWeatherVO(),
+                            weather.mapToDailyWeatherVO(),
                         )
                     )
                 } ?: run {
