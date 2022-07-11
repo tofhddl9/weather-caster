@@ -48,6 +48,10 @@ class TimeProvider(
         return zdt(dt).dayOfWeek
     }
 
+    fun getHour(dt: Long): Int {
+        return zdt(dt).hour
+    }
+
     fun isToday(dt: Long): Boolean {
         return zdt(dt).toLocalDate().equals(LocalDate.now(zoneId))
     }

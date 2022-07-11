@@ -12,8 +12,10 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.lgtm.weathercaster.R
 import com.lgtm.weathercaster.databinding.FragmentWeatherBinding
+import com.lgtm.weathercaster.presentation.widgets.SpaceItemDecoration
 import com.lgtm.weathercaster.presentation.widgets.WeatherAdapter
 import com.lgtm.weathercaster.utils.delegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +47,7 @@ class WeatherFragment: Fragment(R.layout.fragment_weather) {
         ) {
             viewModel.getCurrentWeather()
         }
+
         permissionLauncher.launch(arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -62,7 +65,7 @@ class WeatherFragment: Fragment(R.layout.fragment_weather) {
         with(binding.recyclerView) {
             adapter = weatherAdapter
             layoutManager = LinearLayoutManager(requireContext())
-
+            addItemDecoration(SpaceItemDecoration(8, afterLast = true))
         }
     }
 

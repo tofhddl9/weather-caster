@@ -18,7 +18,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="제목"
+            tools:text="오늘 시간대별 날씨"
             android:textSize="18sp"
             android:layout_marginBottom="12dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,12 +39,14 @@
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_daily_weather"
-            tools:itemCount="3"/>
+            tools:listitem="@layout/item_hourly_weather"
+            tools:itemCount="6"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

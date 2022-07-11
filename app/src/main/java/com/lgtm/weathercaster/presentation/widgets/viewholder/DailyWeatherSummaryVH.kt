@@ -36,9 +36,7 @@ class DailyWeatherSummaryVH(
 
 }
 
-class DailyWeatherItemAdapter(
-
-) : RecyclerView.Adapter<DailyWeatherItemVH>() {
+private class DailyWeatherItemAdapter : RecyclerView.Adapter<DailyWeatherItemVH>() {
 
     private var items: List<WeatherDataVO> = emptyList()
 
@@ -61,7 +59,7 @@ class DailyWeatherItemAdapter(
 
 }
 
-class DailyWeatherItemVH(
+private class DailyWeatherItemVH(
     private val binding: ViewBinding,
     private val timeProvider: TimeProvider = TimeProvider()
 ) : RecyclerView.ViewHolder(binding.root) {

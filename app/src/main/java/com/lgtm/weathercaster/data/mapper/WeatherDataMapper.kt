@@ -20,7 +20,7 @@ fun WeatherVO.mapToWeatherEntity() = WeatherEntity(
 fun WeatherDTO.mapToWeatherVO() = WeatherVO(
     current = current?.mapToWeatherDataVO(),
     dailyWeathers = daily?.mapToDailyWeatherDataVO(),
-    hourlyWeathers = hourly?.mapToHourlyWeatherDataVO(),
+    hourlyWeathers = hourly?.subList(0, 24)?.mapToHourlyWeatherDataVO(),
 )
 
 private fun WeatherData.mapToWeatherDataVO() = WeatherDataVO(

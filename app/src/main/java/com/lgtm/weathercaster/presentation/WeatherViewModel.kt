@@ -47,12 +47,8 @@ class WeatherViewModel @Inject constructor(
                     _uiState.value = _uiState.value.copy(
                         weatherWidgets = listOf(
                             weather.mapToCurrentWeatherSummaryVO(),
-                            weather.mapToCurrentWeatherSummaryVO(),
-                            weather.mapToCurrentWeatherSummaryVO(),
+                            weather.mapToHourlyWeatherVO(),
                             weather.mapToDailyWeatherVO(),
-                            weather.mapToHourlyWeatherVO(),
-                            weather.mapToHourlyWeatherVO(),
-                            weather.mapToHourlyWeatherVO(),
                         )
                     )
                 } ?: run {

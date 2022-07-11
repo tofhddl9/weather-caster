@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.lgtm.weathercaster.data.vo.item.WeatherItemVO
 import com.lgtm.weathercaster.databinding.ViewDailyWeatherSummaryBinding
+import com.lgtm.weathercaster.databinding.ViewHourlyWeatherSummaryBinding
 import com.lgtm.weathercaster.databinding.ViewWeatherSummaryBinding
 import com.lgtm.weathercaster.presentation.widgets.viewholder.WeatherVH
 import com.lgtm.weathercaster.presentation.widgets.viewholder.CurrentWeatherSummaryVH
@@ -24,7 +25,7 @@ class WeatherAdapter : ListAdapter<WeatherItemVO, WeatherVH>(WeatherDiffCallback
                 DailyWeatherSummaryVH(ViewDailyWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             }
             WeatherViewType.HOURLY_WEATHER_SUMMARY -> {
-                HourlyWeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
+                HourlyWeatherSummaryVH(ViewHourlyWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
             }
             else -> {
                 CurrentWeatherSummaryVH(ViewWeatherSummaryBinding.inflate(LayoutInflater.from(parent.context)))
