@@ -13,7 +13,9 @@ import com.lgtm.weathercaster.data.vo.item.WeatherItemVO
 import com.lgtm.weathercaster.databinding.ItemHourlyWeatherBinding
 import com.lgtm.weathercaster.databinding.ViewHourlyWeatherSummaryBinding
 import com.lgtm.weathercaster.presentation.widgets.WeatherViewType
-import com.lgtm.weathercaster.utils.TimeProvider
+import com.lgtm.weathercaster.utils.time.SystemTimeProvider
+import com.lgtm.weathercaster.utils.time.TimeProvider
+import com.lgtm.weathercaster.utils.time.hourToStringFormat
 import kotlin.math.roundToInt
 
 class HourlyWeatherSummaryVH(
@@ -59,11 +61,11 @@ private class HourlyWeatherItemAdapter : RecyclerView.Adapter<HourlyWeatherItemV
 
 private class HourlyWeatherItemVH(
     private val binding: ViewBinding,
-    private val timeProvider: TimeProvider = TimeProvider()
+    private val timeProvider: TimeProvider = SystemTimeProvider()
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bindData(data: WeatherDataVO) = with(binding as ItemHourlyWeatherBinding) {
-        val dt = data.dt * 1000L
+        val dt = data.dt
 
         hour.text = hourToStringFormat(timeProvider.getHour(dt))
         temperature.text = "${data.temperature.roundToInt()}"
@@ -73,21 +75,4 @@ private class HourlyWeatherItemVH(
             .into(weatherIcon)
     }
 
-}
-
-private fun hourToStringFormat(hourIn24: Int): String {
-    return when {
-        hourIn24 == 12 -> {
-            "오후 12시"
-        }
-        hourIn24 == 0 -> {
-            "오전 0시"
-        }
-        hourIn24 > 12 -> {
-            "오후 ${hourIn24 - 12}시"
-        }
-        else -> {
-            "오전 ${hourIn24}시"
-        }
-    }
 }

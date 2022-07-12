@@ -1,13 +1,17 @@
 package com.lgtm.weathercaster.presentation
 
-import android.util.Log
+import android.location.Location
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lgtm.weathercaster.data.vo.WeatherVO
 import com.lgtm.weathercaster.data.vo.item.mapToCurrentWeatherSummaryVO
 import com.lgtm.weathercaster.data.vo.item.mapToDailyWeatherVO
 import com.lgtm.weathercaster.data.vo.item.mapToHourlyWeatherVO
 import com.lgtm.weathercaster.domain.WeatherRepository
 import com.lgtm.weathercaster.utils.LocationProvider
+import com.lgtm.weathercaster.utils.Response
+import com.lgtm.weathercaster.utils.time.SystemTimeProvider
+import com.lgtm.weathercaster.utils.time.TimeProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +23,7 @@ import kotlinx.coroutines.launch
 class WeatherViewModel @Inject constructor(
     private val repository: WeatherRepository,
     private val locationProvider: LocationProvider,
+    private val timeProvider: TimeProvider = SystemTimeProvider(),
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WeatherUiState())
@@ -32,40 +37,75 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    fun getCurrentWeather(
-        fetchFromRemote: Boolean = false
-    ) {
+    fun getCurrentWeather(fetchFromRemote: Boolean = false) {
         viewModelScope.launch {
             locationProvider.getCurrentLocation()?.also { location ->
-                repository.getCurrentWeather(
-                    location.latitude,
-                    location.longitude,
-                    true,
-                ).firstOrNull()?.data?.also { weather ->
-                    // 성공케이스
-                    // 여기서 서버데이터 처럼 구성해서 값 업데이트해주기
-                    _uiState.value = _uiState.value.copy(
-                        weatherWidgets = listOf(
-                            weather.mapToCurrentWeatherSummaryVO(),
-                            weather.mapToHourlyWeatherVO(),
-                            weather.mapToDailyWeatherVO(),
-                            weather.mapToDailyWeatherVO(),
-                        )
-                    )
-                } ?: run {
-                    // 성공은 했지만 비어있음
-                    _uiState.value = _uiState.value.copy(
-                        loadWeatherErrorMessage = "1"
-                    )
-                }
+                updateLocationInfo(location)
+                loadWeather(location.latitude, location.longitude, true)
             } ?: run {
                 // location 로드 실패
-                _uiState.value = _uiState.value.copy(
-                    loadWeatherErrorMessage = "1"
-                )
-                Log.d("Doran", "!!!")
+                onLocationLoadFailed()
             }
         }
     }
+
+    private fun onLocationLoadFailed() {
+        _uiState.value = _uiState.value.copy(
+            loadWeatherErrorMessage = "1"
+        )
+    }
+
+    private fun updateLocationInfo(location: Location) {
+        _uiState.value = _uiState.value.copy(
+            location = locationProvider.getAddress(location)
+        )
+    }
+
+    private suspend fun loadWeather(latitude: Double, longitude: Double, fetchFromRemote: Boolean) {
+        val response = repository.getCurrentWeather(latitude, longitude, true).firstOrNull()
+
+        when(response) {
+            is Response.Success -> {
+                onLoadWeatherSuccess(response.data)
+            }
+            is Response.Error -> {
+                onLoadWeatherFailed(response.data, response.message)
+            }
+            is Response.Loading -> {
+                onLoadingWeather(response.isLoading)
+            }
+        }
+    }
+
+    private fun onLoadWeatherSuccess(data: WeatherVO?) {
+        data?.also { weather ->
+            val currentTime = weather.current?.dt ?: timeProvider.getCurrentTimeMillis()
+            val mainWeather = weather.current?.weatherMetaData?.description ?: ""
+            val weatherState = WeatherState.getStateFrom(mainWeather, timeProvider.isNight(currentTime))
+
+            _uiState.value = _uiState.value.copy(
+                weatherWidgets = listOf(
+                    weather.mapToCurrentWeatherSummaryVO(),
+                    weather.mapToHourlyWeatherVO(),
+                    weather.mapToDailyWeatherVO(),
+                    weather.mapToDailyWeatherVO(),
+                ),
+                weatherState = weatherState
+            )
+        } ?: run {
+            _uiState.value = _uiState.value.copy(
+                loadWeatherErrorMessage = "There is no weather data"
+            )
+        }
+    }
+
+    private fun onLoadWeatherFailed(data: WeatherVO?, message: String?) {
+        //
+    }
+
+    private fun onLoadingWeather(loading: Boolean) {
+        //
+    }
+
 
 }

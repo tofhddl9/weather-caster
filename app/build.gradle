@@ -64,6 +64,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
 
     implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
 
     implementation "androidx.preference:preference-ktx:$rootProject.preferenceVersion"

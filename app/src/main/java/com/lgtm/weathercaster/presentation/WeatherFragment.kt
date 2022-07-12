@@ -12,7 +12,6 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.lgtm.weathercaster.R
 import com.lgtm.weathercaster.databinding.FragmentWeatherBinding
 import com.lgtm.weathercaster.presentation.widgets.SpaceItemDecoration
@@ -74,9 +73,38 @@ class WeatherFragment: Fragment(R.layout.fragment_weather) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { uiState ->
+                    binding.toolbar.title = uiState.location
+                    binding.weatherAnimatedBackground.run {
+                        setAnimation(uiState.weatherState.res)
+                        playAnimation()
+                    }
                 }
             }
         }
     }
 
+}
+
+//TODO : modify to domain vo
+enum class WeatherState(
+    val res: Int,
+) {
+    SUNNY_DAY(R.raw.day_piece),
+    SUNNY_NIGHT(R.raw.night_piece),
+    RAINY(R.raw.day_rainy),
+    SNOWY(R.raw.day_snow);
+
+    companion object {
+        fun getStateFrom(weather: String, isNight: Boolean): WeatherState {
+            return when (weather) {
+                "Rain" -> RAINY
+                "Snow" -> SNOWY
+                // "Clouds" ->
+                else -> {
+                    if (isNight) SUNNY_NIGHT
+                    else SUNNY_DAY
+                }
+            }
+        }
+    }
 }

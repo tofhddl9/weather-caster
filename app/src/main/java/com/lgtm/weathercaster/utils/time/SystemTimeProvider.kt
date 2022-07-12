@@ -1,4 +1,4 @@
-package com.lgtm.weathercaster.utils
+package com.lgtm.weathercaster.utils.time
 
 import android.content.res.Resources
 import androidx.core.os.ConfigurationCompat
@@ -11,11 +11,11 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class TimeProvider(
+class SystemTimeProvider (
     private val clock: Clock = Clock.systemDefaultZone(),
     private val zoneId: ZoneId? = ZoneId.systemDefault(),
     locale: Locale = ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0),
-) {
+) : TimeProvider {
 
     private val format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
         .withLocale(locale)
@@ -28,44 +28,37 @@ class TimeProvider(
         return ZonedDateTime.ofInstant(Instant.ofEpochMilli(dt), zoneId)
     }
 
-    fun getCurrentTimeMillis(): Long {
+    override fun getCurrentTimeMillis(): Long {
         return now
     }
 
-    fun getCurrentTimeInISO8601(): String {
+    override fun getCurrentTimeInISO8601(): String {
         return zdt().format(format)
     }
 
-    fun getMonth(dt: Long): Int {
+    override fun getMonth(dt: Long): Int {
         return zdt(dt).monthValue
     }
 
-    fun getDayOfMonth(dt: Long): Int {
+    override fun getDayOfMonth(dt: Long): Int {
         return zdt(dt).dayOfMonth
     }
 
-    fun getDayWeek(dt: Long): DayOfWeek {
+    override fun getDayWeek(dt: Long): DayOfWeek {
         return zdt(dt).dayOfWeek
     }
 
-    fun getHour(dt: Long): Int {
+    override fun getHour(dt: Long): Int {
         return zdt(dt).hour
     }
 
-    fun isToday(dt: Long): Boolean {
+    override fun isToday(dt: Long): Boolean {
         return zdt(dt).toLocalDate().equals(LocalDate.now(zoneId))
     }
 
-}
-
-fun DayOfWeek.toKorean(): String {
-    return when (this) {
-        DayOfWeek.SUNDAY -> "일"
-        DayOfWeek.MONDAY -> "월"
-        DayOfWeek.TUESDAY -> "화"
-        DayOfWeek.WEDNESDAY -> "수"
-        DayOfWeek.THURSDAY -> "목"
-        DayOfWeek.FRIDAY -> "금"
-        DayOfWeek.SATURDAY -> "토"
+    override fun isNight(dt: Long): Boolean {
+        val hour = getHour(dt)
+        return hour >= 20 || hour <= 6
     }
+
 }

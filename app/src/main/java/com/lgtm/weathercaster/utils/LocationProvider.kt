@@ -4,16 +4,20 @@ import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.maps.model.LatLng
+import java.util.*
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 interface LocationProvider {
     suspend fun getCurrentLocation(): Location?
+    fun getAddress(location: Location): String?
 }
 
 @ExperimentalCoroutinesApi
@@ -62,6 +66,14 @@ class LocationProviderImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    override fun getAddress(location: Location): String {
+        val position = LatLng(location.latitude, location.longitude)
+        val geoCoder = Geocoder(application, Locale.getDefault())
+        val address = geoCoder.getFromLocation(position.latitude, position.longitude, 1).getOrNull(0)
+
+        return "${address?.subLocality ?: ""} ${address?.thoroughfare ?: ""}"
     }
 
 }

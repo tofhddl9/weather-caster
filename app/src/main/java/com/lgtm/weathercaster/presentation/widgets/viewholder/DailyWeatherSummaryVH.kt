@@ -14,8 +14,9 @@ import com.lgtm.weathercaster.data.vo.item.WeatherItemVO
 import com.lgtm.weathercaster.databinding.ItemDailyWeatherBinding
 import com.lgtm.weathercaster.databinding.ViewDailyWeatherSummaryBinding
 import com.lgtm.weathercaster.presentation.widgets.WeatherViewType
-import com.lgtm.weathercaster.utils.TimeProvider
-import com.lgtm.weathercaster.utils.toKorean
+import com.lgtm.weathercaster.utils.time.SystemTimeProvider
+import com.lgtm.weathercaster.utils.time.TimeProvider
+import com.lgtm.weathercaster.utils.time.toKorean
 import kotlin.math.roundToInt
 
 class DailyWeatherSummaryVH(
@@ -61,11 +62,11 @@ private class DailyWeatherItemAdapter : RecyclerView.Adapter<DailyWeatherItemVH>
 
 private class DailyWeatherItemVH(
     private val binding: ViewBinding,
-    private val timeProvider: TimeProvider = TimeProvider()
+    private val timeProvider: TimeProvider = SystemTimeProvider()
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bindData(data: WeatherDataVO) = with(binding as ItemDailyWeatherBinding) {
-        val dt = data.dt*1000L
+        val dt = data.dt
         if (timeProvider.isToday(dt)) {
             day.text =  "오늘"
             day.typeface = Typeface.DEFAULT_BOLD

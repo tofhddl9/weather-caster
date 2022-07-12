@@ -24,7 +24,7 @@ fun WeatherDTO.mapToWeatherVO() = WeatherVO(
 )
 
 private fun WeatherData.mapToWeatherDataVO() = WeatherDataVO(
-    dt = dt,
+    dt = dt * 1000L,
     temperature = temp,
     precipitation = rain?.hourly ?: 0f,
     uvi = uvi,
@@ -33,13 +33,13 @@ private fun WeatherData.mapToWeatherDataVO() = WeatherDataVO(
 
 private fun WeatherMainData.mapToWeatherMetaDataVO() = WeatherMetaDataVO(
     id = id,
-    description = "$main($description)",
+    description = main,
     icon = "https://openweathermap.org/img/wn/$icon@2x.png"
 )
 
 private fun List<DailyWeatherData>.mapToDailyWeatherDataVO() = this.map {
     WeatherDataVO(
-        dt = it.dt,
+        dt = it.dt * 1000L,
         temperature = it.temp?.day ?: 0f,
         temperatureMin = it.temp?.min ?: 0f,
         temperatureMax = it.temp?.max ?: 0f,
@@ -51,7 +51,7 @@ private fun List<DailyWeatherData>.mapToDailyWeatherDataVO() = this.map {
 
 private fun List<HourlyWeatherData>.mapToHourlyWeatherDataVO() = this.map {
     WeatherDataVO(
-        dt = it.dt,
+        dt = it.dt * 1000L,
         temperature = it.temp,
         precipitation = it.rain?.hourly ?: 0f,
         uvi = it.uvi,
