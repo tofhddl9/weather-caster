@@ -1,5 +1,6 @@
 package com.lgtm.weathercaster.data
 
+import android.util.Log
 import com.lgtm.weathercaster.data.vo.WeatherVO
 import com.lgtm.weathercaster.di.LocalDataSource
 import com.lgtm.weathercaster.di.RemoteDataSource
@@ -23,9 +24,16 @@ class WeatherRepositoryImpl @Inject constructor(
         fetchFromRemote: Boolean
     ): Flow<Response<WeatherVO>> {
         return flow {
-//            emit(Response.Loading(true))
-//            val cachedWeather = weatherLocalDataSource.getCurrentWeather(latitude, longitude)
-//            emit(Response.Success(data = cachedWeather))
+            emit(Response.Loading(true))
+            val cachedWeather = weatherLocalDataSource.getCurrentWeather(latitude, longitude)
+            emit(Response.Success(data = cachedWeather))
+
+            val isCacheEmpty = cachedWeather == null
+            val shouldLoadFromCache = !isCacheEmpty && !fetchFromRemote
+            if (shouldLoadFromCache) {
+                emit(Response.Loading(false))
+                return@flow
+            }
 
             val remoteWeather = weatherRemoteDataSource.getCurrentWeather(latitude, longitude)
             remoteWeather?.let {

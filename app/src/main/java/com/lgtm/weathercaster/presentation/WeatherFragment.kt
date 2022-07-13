@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -33,14 +34,14 @@ class WeatherFragment: Fragment(R.layout.fragment_weather) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        foo()
+        requestPermission()
 
         initViews()
 
         observeViewModel()
     }
 
-    private fun foo() {
+    private fun requestPermission() {
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
@@ -67,16 +68,29 @@ class WeatherFragment: Fragment(R.layout.fragment_weather) {
             addItemDecoration(SpaceItemDecoration(8, afterLast = true))
         }
 
+        with(binding.refreshLayout) {
+            setOnRefreshListener {
+                viewModel.onEvent(WeatherUiEvent.Refresh)
+            }
+        }
+
     }
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { uiState ->
+                    binding.refreshLayout.isRefreshing = false
+
+                    binding.loadingView.isVisible = uiState.isLoading
+
                     binding.toolbar.title = uiState.location
-                    binding.weatherAnimatedBackground.run {
-                        setAnimation(uiState.weatherState.res)
-                        playAnimation()
+
+                    uiState.weatherState.takeIf { it != WeatherState.UNKNOWN } ?.let {
+                        binding.weatherAnimatedBackground.run {
+                            setAnimation(it.res)
+                            playAnimation()
+                        }
                     }
                 }
             }
@@ -92,7 +106,8 @@ enum class WeatherState(
     SUNNY_DAY(R.raw.day_piece),
     SUNNY_NIGHT(R.raw.night_piece),
     RAINY(R.raw.day_rainy),
-    SNOWY(R.raw.day_snow);
+    SNOWY(R.raw.day_snow),
+    UNKNOWN(-1);
 
     companion object {
         fun getStateFrom(weather: String, isNight: Boolean): WeatherState {

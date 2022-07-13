@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
@@ -62,17 +63,19 @@ class WeatherViewModel @Inject constructor(
     }
 
     private suspend fun loadWeather(latitude: Double, longitude: Double, fetchFromRemote: Boolean) {
-        val response = repository.getCurrentWeather(latitude, longitude, true).firstOrNull()
-
-        when(response) {
-            is Response.Success -> {
-                onLoadWeatherSuccess(response.data)
-            }
-            is Response.Error -> {
-                onLoadWeatherFailed(response.data, response.message)
-            }
-            is Response.Loading -> {
-                onLoadingWeather(response.isLoading)
+        viewModelScope.launch {
+            repository.getCurrentWeather(latitude, longitude, true).collect { response ->
+                when(response) {
+                    is Response.Success -> {
+                        onLoadWeatherSuccess(response.data)
+                    }
+                    is Response.Error -> {
+                        onLoadWeatherFailed(response.data, response.message)
+                    }
+                    is Response.Loading -> {
+                        onLoadingWeather(response.isLoading)
+                    }
+                }
             }
         }
     }
@@ -104,7 +107,9 @@ class WeatherViewModel @Inject constructor(
     }
 
     private fun onLoadingWeather(loading: Boolean) {
-        //
+        _uiState.value = _uiState.value.copy(
+            isLoading = loading
+        )
     }
 
 

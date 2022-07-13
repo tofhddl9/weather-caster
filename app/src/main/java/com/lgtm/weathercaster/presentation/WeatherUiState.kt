@@ -10,7 +10,7 @@ data class WeatherUiState(
     val mainWeatherImageUrl: String? = null,
     val weatherWidgets: List<WeatherItemVO>? = null,
     val isLoading: Boolean = false,
-    val weatherState: WeatherState = WeatherState.SUNNY_DAY,
+    val weatherState: WeatherState = WeatherState.UNKNOWN,
     val loadWeatherErrorMessage: String? = null,
     val loadLocationErrorMessage: String? = null,
 )

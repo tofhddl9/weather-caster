@@ -11,10 +11,25 @@
         android:id="@+id/weatherAnimatedBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#111111"
         android:scaleType="centerCrop"
-        app:lottie_rawRes="@raw/night_piece"
         app:lottie_autoPlay="true"
         app:lottie_loop="true" />
+
+    <FrameLayout
+        android:id="@+id/loadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#22000000">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/white"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"

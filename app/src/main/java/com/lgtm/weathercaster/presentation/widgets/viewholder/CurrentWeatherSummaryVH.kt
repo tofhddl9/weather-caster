@@ -16,7 +16,7 @@ class CurrentWeatherSummaryVH(
     override fun bindData(data: WeatherItemVO) = with(binding as ViewCurrentWeatherSummaryBinding) {
         data as CurrentWeatherSummaryVO
 
-        temperature.text = "${data.temperature.roundToInt()}도"
+        temperature.text = "${data.temperature.roundToInt()}\u00B0"
         weatherInfo.text = "${data.description}"
         airCondition.text = "시간당 강수량 : ${data.hourlyRain}mm"
     }

@@ -68,7 +68,7 @@ private class HourlyWeatherItemVH(
         val dt = data.dt
 
         hour.text = hourToStringFormat(timeProvider.getHour(dt))
-        temperature.text = "${data.temperature.roundToInt()}"
+        temperature.text = "${data.temperature.roundToInt()}\u00B0"
         Glide.with(weatherIcon)
             .load(data.weatherMetaData?.icon)
             .placeholder(R.drawable.common_google_signin_btn_icon_dark)

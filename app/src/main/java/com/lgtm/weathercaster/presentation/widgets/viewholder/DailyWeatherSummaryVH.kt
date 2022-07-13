@@ -75,8 +75,8 @@ private class DailyWeatherItemVH(
             day.typeface = Typeface.DEFAULT
         }
 
-        minTemperature.text = "${data.temperatureMin?.roundToInt()}"
-        maxTemperature.text = "${data.temperatureMax?.roundToInt()}"
+        minTemperature.text = "${data.temperatureMin?.roundToInt()}\u00B0"
+        maxTemperature.text = "${data.temperatureMax?.roundToInt()}\u00B0"
         Glide.with(weatherIcon)
             .load(data.weatherMetaData?.icon)
             .placeholder(R.drawable.common_google_signin_btn_icon_dark)

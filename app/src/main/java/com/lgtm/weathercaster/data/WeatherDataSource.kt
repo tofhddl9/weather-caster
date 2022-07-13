@@ -9,4 +9,6 @@ interface WeatherDataSource {
         longitude: Double,
     ): WeatherVO?
 
+    suspend fun insertCurrentWeather(weatherVO: WeatherVO)
+
 }

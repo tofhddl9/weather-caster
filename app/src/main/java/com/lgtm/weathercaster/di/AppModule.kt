@@ -11,7 +11,11 @@ import com.lgtm.weathercaster.data.WeatherRepositoryImpl
 import com.lgtm.weathercaster.data.local.WeatherDao
 import com.lgtm.weathercaster.data.local.WeatherDatabase
 import com.lgtm.weathercaster.data.local.WeatherLocalDataSource
+import com.lgtm.weathercaster.data.local.converter.WeatherDataListTypeConverter
+import com.lgtm.weathercaster.data.local.converter.WeatherDataTypeConverter
 import com.lgtm.weathercaster.data.remote.WeatherService
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,9 +37,13 @@ object AppModule {
     @Singleton
     @Provides
     fun provideWeatherApi(): WeatherService {
+        val moshi = Moshi.Builder()
+            .addLast(KotlinJsonAdapterFactory()) // 코틀린에서 JsonAdapter 를 생성하기 위한 팩토리 객체
+            .build()
+
         return Retrofit.Builder()
             .baseUrl(WeatherService.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(
                 OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().apply {
@@ -49,11 +57,17 @@ object AppModule {
     @Singleton
     @Provides
     fun provideDataBase(@ApplicationContext context: Context): WeatherDatabase {
+        val moshi = Moshi.Builder()
+            .addLast(KotlinJsonAdapterFactory()) // 코틀린에서 JsonAdapter 를 생성하기 위한 팩토리 객체
+            .build()
+
         return Room.databaseBuilder(
-            context.applicationContext,
-            WeatherDatabase::class.java,
-            "Weather.db"
-        ).build()
+                context.applicationContext,
+                WeatherDatabase::class.java,
+                "Weather.db")
+            .addTypeConverter(WeatherDataTypeConverter(moshi))
+            .addTypeConverter(WeatherDataListTypeConverter(moshi))
+            .build()
     }
 
     @Singleton

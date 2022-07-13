@@ -14,7 +14,7 @@ fun WeatherEntity.mapToWeatherVO() = WeatherVO(
 )
 
 fun WeatherVO.mapToWeatherEntity() = WeatherEntity(
-    foo = 0
+
 )
 
 fun WeatherDTO.mapToWeatherVO() = WeatherVO(

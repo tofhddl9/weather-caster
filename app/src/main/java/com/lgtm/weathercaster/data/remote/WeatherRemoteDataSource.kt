@@ -15,4 +15,6 @@ class WeatherRemoteDataSource @Inject constructor(
         return weatherService.getWeather(latitude, longitude, KEY)?.mapToWeatherVO()
     }
 
+    override suspend fun insertCurrentWeather(weatherVO: WeatherVO) = Unit
+
 }

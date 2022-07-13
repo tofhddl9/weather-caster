@@ -25,6 +25,7 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         tools:src="@tools:sample/avatars"
+        android:background="@color/teal_700"
         app:layout_constraintTop_toTopOf="@id/day"
         app:layout_constraintBottom_toBottomOf="@id/day"
         app:layout_constraintStart_toEndOf="@id/day"
