@@ -17,4 +17,6 @@ class WeatherRemoteDataSource @Inject constructor(
 
     override suspend fun insertCurrentWeather(weatherVO: WeatherVO) = Unit
 
+    override suspend fun clearCurrentWeather() = Unit
+
 }

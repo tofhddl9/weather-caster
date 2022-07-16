@@ -22,4 +22,8 @@ class WeatherLocalDataSource @Inject constructor(
         weatherDao.insertCurrentWeather(weatherVO.mapToWeatherEntity())
     }
 
+    override suspend fun clearCurrentWeather() = withContext(ioDispatcher) {
+        weatherDao.clearCurrentWeather()
+    }
+
 }

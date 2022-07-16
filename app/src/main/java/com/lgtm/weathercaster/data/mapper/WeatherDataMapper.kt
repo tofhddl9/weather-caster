@@ -3,21 +3,14 @@ package com.lgtm.weathercaster.data.mapper
 import com.lgtm.weathercaster.data.vo.WeatherDataVO
 import com.lgtm.weathercaster.data.vo.WeatherMetaDataVO
 import com.lgtm.weathercaster.data.vo.WeatherVO
-import com.lgtm.weathercaster.data.local.WeatherEntity
 import com.lgtm.weathercaster.data.remote.DailyWeatherData
 import com.lgtm.weathercaster.data.remote.HourlyWeatherData
 import com.lgtm.weathercaster.data.remote.WeatherDTO
 import com.lgtm.weathercaster.data.remote.WeatherData
 import com.lgtm.weathercaster.data.remote.WeatherMainData
 
-fun WeatherEntity.mapToWeatherVO() = WeatherVO(
-)
-
-fun WeatherVO.mapToWeatherEntity() = WeatherEntity(
-
-)
-
 fun WeatherDTO.mapToWeatherVO() = WeatherVO(
+    timeZone = timezone,
     current = current?.mapToWeatherDataVO(),
     dailyWeathers = daily?.mapToDailyWeatherDataVO(),
     hourlyWeathers = hourly?.subList(0, 24)?.mapToHourlyWeatherDataVO(),

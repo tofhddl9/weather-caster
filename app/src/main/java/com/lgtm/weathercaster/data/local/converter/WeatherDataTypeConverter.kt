@@ -20,7 +20,7 @@ class WeatherEntityTypeConverter(
     }
 
     @TypeConverter
-    fun fromWeatherData(type: WeatherEntity): String {
+    fun fromWeatherData(type: WeatherEntity?): String {
         val adapter: JsonAdapter<WeatherEntity> = moshi.adapter(WeatherEntity::class.java)
         return adapter.toJson(type)
     }
@@ -39,7 +39,7 @@ class WeatherDataTypeConverter(
     }
 
     @TypeConverter
-    fun fromWeatherData(type: WeatherData): String {
+    fun fromWeatherData(type: WeatherData?): String {
         val adapter: JsonAdapter<WeatherData> = moshi.adapter(WeatherData::class.java)
         return adapter.toJson(type)
     }
@@ -59,7 +59,7 @@ class WeatherDataListTypeConverter(
     }
 
     @TypeConverter
-    fun fromWeatherDataList(type: List<WeatherData>): String {
+    fun fromWeatherDataList(type: List<WeatherData>?): String {
         val listType = Types.newParameterizedType(List::class.java, WeatherData::class.java)
         val adapter: JsonAdapter<List<WeatherData>> = moshi.adapter(listType)
         return adapter.toJson(type)

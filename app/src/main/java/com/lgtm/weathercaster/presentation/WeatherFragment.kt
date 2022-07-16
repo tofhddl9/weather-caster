@@ -18,6 +18,7 @@ import com.lgtm.weathercaster.databinding.FragmentWeatherBinding
 import com.lgtm.weathercaster.presentation.widgets.SpaceItemDecoration
 import com.lgtm.weathercaster.presentation.widgets.WeatherAdapter
 import com.lgtm.weathercaster.utils.delegate.viewBinding
+import com.lgtm.weathercaster.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -95,6 +96,15 @@ class WeatherFragment: Fragment(R.layout.fragment_weather) {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errorMessages.collect { msg ->
+                    showSnackBar(msg)
+                }
+            }
+        }
+
     }
 
 }

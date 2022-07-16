@@ -14,11 +14,13 @@ import com.lgtm.weathercaster.utils.time.SystemTimeProvider
 import com.lgtm.weathercaster.utils.time.TimeProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
@@ -30,6 +32,9 @@ class WeatherViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(WeatherUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val errorMessageChannel = Channel<String>()
+    val errorMessages = errorMessageChannel.receiveAsFlow()
+
     fun onEvent(event: WeatherUiEvent) {
         when (event) {
             WeatherUiEvent.Refresh -> {
@@ -40,26 +45,45 @@ class WeatherViewModel @Inject constructor(
 
     fun getCurrentWeather(fetchFromRemote: Boolean = false) {
         viewModelScope.launch {
-            locationProvider.getCurrentLocation()?.also { location ->
-                updateLocationInfo(location)
-                loadWeather(location.latitude, location.longitude, true)
-            } ?: run {
-                // location 로드 실패
-                onLocationLoadFailed()
+            when (val location = locationProvider.getCurrentLocation()) {
+                is Response.Success -> {
+                    location.data?.also {
+                        updateLocationInfo(it)
+                        loadWeather(it.latitude, it.longitude, true)
+                    } ?: run {
+                        // never called?
+                        onLocationLoadFailed("NEVER CALLED")
+                    }
+                }
+                else -> run {
+                    onLocationLoadFailed(location.message!!)
+                }
             }
         }
     }
 
-    private fun onLocationLoadFailed() {
-        _uiState.value = _uiState.value.copy(
-            loadWeatherErrorMessage = "1"
-        )
+    private fun onLocationLoadFailed(msg: String) {
+        viewModelScope.launch {
+            errorMessageChannel.send(msg)
+        }
     }
 
     private fun updateLocationInfo(location: Location) {
-        _uiState.value = _uiState.value.copy(
-            location = locationProvider.getAddress(location)
-        )
+        when (val address = locationProvider.getAddress(location)) {
+            is Response.Success -> {
+                _uiState.value = _uiState.value.copy(
+                    location = address.data
+                )
+            }
+            else -> {
+                _uiState.value = _uiState.value.copy(
+                    location = "",
+                )
+                viewModelScope.launch {
+                    errorMessageChannel.send(address.message ?: "")
+                }
+            }
+        }
     }
 
     private suspend fun loadWeather(latitude: Double, longitude: Double, fetchFromRemote: Boolean) {
@@ -67,7 +91,7 @@ class WeatherViewModel @Inject constructor(
             repository.getCurrentWeather(latitude, longitude, true).collect { response ->
                 when(response) {
                     is Response.Success -> {
-                        onLoadWeatherSuccess(response.data)
+                        onLoadWeatherSuccess(response.data!!)
                     }
                     is Response.Error -> {
                         onLoadWeatherFailed(response.data, response.message)
@@ -80,30 +104,26 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    private fun onLoadWeatherSuccess(data: WeatherVO?) {
-        data?.also { weather ->
-            val currentTime = weather.current?.dt ?: timeProvider.getCurrentTimeMillis()
-            val mainWeather = weather.current?.weatherMetaData?.description ?: ""
-            val weatherState = WeatherState.getStateFrom(mainWeather, timeProvider.isNight(currentTime))
+    private fun onLoadWeatherSuccess(data: WeatherVO) {
+        val currentTime = data.current?.dt ?: timeProvider.getCurrentTimeMillis()
+        val mainWeather = data.current?.weatherMetaData?.description ?: ""
+        val weatherState = WeatherState.getStateFrom(mainWeather, timeProvider.isNight(currentTime))
 
-            _uiState.value = _uiState.value.copy(
-                weatherWidgets = listOf(
-                    weather.mapToCurrentWeatherSummaryVO(),
-                    weather.mapToHourlyWeatherVO(),
-                    weather.mapToDailyWeatherVO(),
-                    weather.mapToDailyWeatherVO(),
-                ),
-                weatherState = weatherState
-            )
-        } ?: run {
-            _uiState.value = _uiState.value.copy(
-                loadWeatherErrorMessage = "There is no weather data"
-            )
-        }
+        _uiState.value = _uiState.value.copy(
+            weatherWidgets = listOf(
+                data.mapToCurrentWeatherSummaryVO(),
+                data.mapToHourlyWeatherVO(),
+                data.mapToDailyWeatherVO(),
+                data.mapToDailyWeatherVO(),
+            ),
+            weatherState = weatherState
+        )
     }
 
     private fun onLoadWeatherFailed(data: WeatherVO?, message: String?) {
-        //
+        viewModelScope.launch {
+            errorMessageChannel.send(message ?: "")
+        }
     }
 
     private fun onLoadingWeather(loading: Boolean) {

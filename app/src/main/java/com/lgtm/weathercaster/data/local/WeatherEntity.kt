@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
 @Entity(tableName = "weather")
 @JsonClass(generateAdapter = true)
 data class WeatherEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
+    @PrimaryKey val timeZone: String = "",
     val current: WeatherData? = null,
     val dailyWeathers: List<WeatherData>? = null,
     val hourlyWeathers: List<WeatherData>? = null

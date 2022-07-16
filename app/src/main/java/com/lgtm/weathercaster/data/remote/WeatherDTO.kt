@@ -5,6 +5,7 @@ import com.squareup.moshi.Json
 data class WeatherDTO(
     val lat: Double = 0.0,
     val lon: Double = 0.0,
+    val timezone: String? = null,
     val current: WeatherData? = null,
     val minutely: List<PrecipitationData>? = null,
     val hourly: List<HourlyWeatherData>? = null,

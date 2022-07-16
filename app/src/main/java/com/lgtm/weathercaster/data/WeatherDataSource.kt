@@ -11,4 +11,6 @@ interface WeatherDataSource {
 
     suspend fun insertCurrentWeather(weatherVO: WeatherVO)
 
+    suspend fun clearCurrentWeather()
+
 }
