@@ -17,6 +17,7 @@ import com.lgtm.weathercaster.presentation.widgets.WeatherViewType
 import com.lgtm.weathercaster.utils.time.SystemTimeProvider
 import com.lgtm.weathercaster.utils.time.TimeProvider
 import com.lgtm.weathercaster.utils.time.toKorean
+import kotlin.math.max
 import kotlin.math.roundToInt
 
 class DailyWeatherSummaryVH(
@@ -41,8 +42,15 @@ private class DailyWeatherItemAdapter : RecyclerView.Adapter<DailyWeatherItemVH>
 
     private var items: List<WeatherDataVO> = emptyList()
 
+    private var minTemp = 0f
+
+    private var maxTemp = 0f
+
     fun setItems(data: List<WeatherDataVO>?) {
         data ?: return
+
+        minTemp = data.minOf { it.temperatureMin ?: 0f }
+        maxTemp = data.maxOf { it.temperatureMax ?: 0f }
 
         items = data
         notifyDataSetChanged()
@@ -53,7 +61,7 @@ private class DailyWeatherItemAdapter : RecyclerView.Adapter<DailyWeatherItemVH>
     }
 
     override fun onBindViewHolder(holder: DailyWeatherItemVH, position: Int) {
-        holder.bindData(items[position])
+        holder.bindData(items[position], minTemp, maxTemp)
     }
 
     override fun getItemCount(): Int = items.size
@@ -65,7 +73,7 @@ private class DailyWeatherItemVH(
     private val timeProvider: TimeProvider = SystemTimeProvider()
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindData(data: WeatherDataVO) = with(binding as ItemDailyWeatherBinding) {
+    fun bindData(data: WeatherDataVO, minTemp: Float, maxTemp: Float) = with(binding as ItemDailyWeatherBinding) {
         val dt = data.dt
         if (timeProvider.isToday(dt)) {
             day.text =  "오늘"
@@ -77,6 +85,14 @@ private class DailyWeatherItemVH(
 
         minTemperature.text = "${data.temperatureMin?.roundToInt()}\u00B0"
         maxTemperature.text = "${data.temperatureMax?.roundToInt()}\u00B0"
+
+        temperatureBar.setData(
+            minTemp.roundToInt(),
+            maxTemp.roundToInt(),
+            data.temperatureMin?.roundToInt() ?: minTemp.roundToInt(),
+            data.temperatureMax?.roundToInt() ?: maxTemp.roundToInt()
+        )
+
         Glide.with(weatherIcon)
             .load(data.weatherMetaData?.icon)
             .placeholder(R.drawable.common_google_signin_btn_icon_dark)

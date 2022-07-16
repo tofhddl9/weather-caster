@@ -8,6 +8,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class WeatherEntity(
     @PrimaryKey val timeZone: String = "",
+    val dt: Long = 0,
     val current: WeatherData? = null,
     val dailyWeathers: List<WeatherData>? = null,
     val hourlyWeathers: List<WeatherData>? = null

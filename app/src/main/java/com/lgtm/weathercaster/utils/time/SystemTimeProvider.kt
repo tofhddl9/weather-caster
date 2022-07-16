@@ -32,8 +32,8 @@ class SystemTimeProvider (
         return now
     }
 
-    override fun getCurrentTimeInISO8601(): String {
-        return zdt().format(format)
+    override fun getCurrentTimeInISO8601(dt: Long): String {
+        return zdt(dt).format(format)
     }
 
     override fun getMonth(dt: Long): Int {

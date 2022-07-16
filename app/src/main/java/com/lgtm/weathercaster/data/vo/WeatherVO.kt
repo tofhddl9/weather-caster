@@ -1,6 +1,7 @@
 package com.lgtm.weathercaster.data.vo
 
 data class WeatherVO(
+    val dt: Long = 0,
     val timeZone: String? = null,
     val current: WeatherDataVO? = null,
     val dailyWeathers: List<WeatherDataVO>? = null,

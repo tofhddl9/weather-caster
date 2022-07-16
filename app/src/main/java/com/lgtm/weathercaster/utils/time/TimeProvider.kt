@@ -9,7 +9,7 @@ interface TimeProvider {
 
     fun getCurrentTimeMillis(): Long
 
-    fun getCurrentTimeInISO8601(): String
+    fun getCurrentTimeInISO8601(dt: Long): String
 
     fun getMonth(dt: Long): Int
 

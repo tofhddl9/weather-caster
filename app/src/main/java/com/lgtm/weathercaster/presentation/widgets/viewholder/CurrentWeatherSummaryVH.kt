@@ -19,6 +19,7 @@ class CurrentWeatherSummaryVH(
         temperature.text = "${data.temperature.roundToInt()}\u00B0"
         weatherInfo.text = "${data.description}"
         airCondition.text = "시간당 강수량 : ${data.hourlyRain}mm"
+        updateTime.text = "마지막 업데이트 : ${data.lastUpdate}"
     }
 
 }

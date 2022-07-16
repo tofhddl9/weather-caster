@@ -8,6 +8,7 @@ import com.lgtm.weathercaster.data.vo.WeatherMetaDataVO
 import com.lgtm.weathercaster.data.vo.WeatherVO
 
 fun WeatherEntity.mapToWeatherVO() = WeatherVO(
+    dt = dt,
     timeZone = timeZone,
     current = current?.mapToWeatherDataVO(),
     dailyWeathers = dailyWeathers?.map { it.mapToWeatherDataVO() },
@@ -15,6 +16,7 @@ fun WeatherEntity.mapToWeatherVO() = WeatherVO(
 )
 
 fun WeatherVO.mapToWeatherEntity() = WeatherEntity(
+    dt = dt,
     timeZone = timeZone ?: "",
     current = current?.mapToWeatherData(),
     dailyWeathers = dailyWeathers?.map { it.mapToWeatherData() },

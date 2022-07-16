@@ -1,6 +1,10 @@
 package com.lgtm.weathercaster.utils.time
 
 import java.time.DayOfWeek
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 fun DayOfWeek.toKorean(): String {
     return when (this) {
@@ -29,4 +33,9 @@ fun hourToStringFormat(hourIn24: Int): String {
             "오전 ${hourIn24}시"
         }
     }
+}
+
+fun timeToSimpleFormat(dt: Long, pattern: String): String {
+    val formatter = DateTimeFormatter.ofPattern(pattern)
+    return ZonedDateTime.ofInstant(Instant.ofEpochMilli(dt), ZoneId.systemDefault()).format(formatter)
 }

@@ -3,6 +3,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tool:background="@color/teal_700"
     android:orientation="vertical">
 
     <TextView
@@ -28,5 +29,13 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         tool:text="대기질 - 깨끗함" />
+
+    <TextView
+        android:id="@+id/update_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        tool:text="마지막 업데이트 : 22/07/13 18:32:13" />
 
 </LinearLayout>

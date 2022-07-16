@@ -43,7 +43,7 @@ class WeatherRepositoryImpl @Inject constructor(
                 weatherRemoteDataSource.getCurrentWeather(latitude, longitude)
             } catch(e: Exception) {
                 e.printStackTrace()
-                emit(Response.Error(data = remoteWeather,"날씨 정보를 불러오는데 실패했습니다."))
+                emit(Response.Error(data = remoteWeather,"날씨 정보 업데이트를 실패했습니다."))
                 null
             }
 
@@ -52,7 +52,7 @@ class WeatherRepositoryImpl @Inject constructor(
                 weatherLocalDataSource.insertCurrentWeather(it)
                 emit(Response.Success(data = it))
             } ?: run {
-                emit(Response.Error(data = remoteWeather, message = "날씨 정보를 불러오는데 실패했습니다."))
+                emit(Response.Error(data = remoteWeather, message = "날씨 정보 업데이트를 실패했습니다."))
             }
 
             emit(Response.Loading(false))

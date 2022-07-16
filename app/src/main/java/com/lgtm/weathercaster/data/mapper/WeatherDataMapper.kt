@@ -8,8 +8,10 @@ import com.lgtm.weathercaster.data.remote.HourlyWeatherData
 import com.lgtm.weathercaster.data.remote.WeatherDTO
 import com.lgtm.weathercaster.data.remote.WeatherData
 import com.lgtm.weathercaster.data.remote.WeatherMainData
+import com.lgtm.weathercaster.utils.time.SystemTimeProvider
 
 fun WeatherDTO.mapToWeatherVO() = WeatherVO(
+    dt = SystemTimeProvider().getCurrentTimeMillis(),
     timeZone = timezone,
     current = current?.mapToWeatherDataVO(),
     dailyWeathers = daily?.mapToDailyWeatherDataVO(),
