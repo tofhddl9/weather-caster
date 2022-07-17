@@ -1,4 +1,4 @@
-package com.lgtm.weathercaster.data.vo.item
+package com.lgtm.weathercaster.domain.vo.item
 
 interface WeatherItemVO {
     val itemId: Int

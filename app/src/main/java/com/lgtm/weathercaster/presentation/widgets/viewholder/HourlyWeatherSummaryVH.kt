@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.lgtm.weathercaster.R
-import com.lgtm.weathercaster.data.vo.WeatherDataVO
-import com.lgtm.weathercaster.data.vo.item.HourlyWeatherVO
-import com.lgtm.weathercaster.data.vo.item.WeatherItemVO
+import com.lgtm.weathercaster.domain.vo.WeatherDataVO
+import com.lgtm.weathercaster.domain.vo.item.HourlyWeatherVO
+import com.lgtm.weathercaster.domain.vo.item.WeatherItemVO
 import com.lgtm.weathercaster.databinding.ItemHourlyWeatherBinding
 import com.lgtm.weathercaster.databinding.ViewHourlyWeatherSummaryBinding
 import com.lgtm.weathercaster.presentation.widgets.WeatherViewType

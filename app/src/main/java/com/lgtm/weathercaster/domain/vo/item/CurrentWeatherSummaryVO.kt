@@ -1,6 +1,6 @@
-package com.lgtm.weathercaster.data.vo.item
+package com.lgtm.weathercaster.domain.vo.item
 
-import com.lgtm.weathercaster.data.vo.WeatherVO
+import com.lgtm.weathercaster.domain.vo.WeatherVO
 import com.lgtm.weathercaster.presentation.widgets.WeatherViewType
 import com.lgtm.weathercaster.utils.time.SystemTimeProvider
 import com.lgtm.weathercaster.utils.time.timeToSimpleFormat
@@ -19,5 +19,5 @@ internal fun WeatherVO.mapToCurrentWeatherSummaryVO() = CurrentWeatherSummaryVO(
     description = current?.weatherMetaData?.description,
     hourlyRain = current?.precipitation ?: 0f,
     uvi = current?.uvi ?: 0f,
-    lastUpdate = timeToSimpleFormat(dt, "yy-MM-dd HH:mm:ss")
+    lastUpdate = timeToSimpleFormat(dt, "yy-MM-dd HH:mm:ss") // TODO : move to data module
 )

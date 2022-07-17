@@ -1,7 +1,7 @@
 package com.lgtm.weathercaster.data
 
 import android.util.Log
-import com.lgtm.weathercaster.data.vo.WeatherVO
+import com.lgtm.weathercaster.domain.vo.WeatherVO
 import com.lgtm.weathercaster.di.LocalDataSource
 import com.lgtm.weathercaster.di.RemoteDataSource
 import com.lgtm.weathercaster.domain.WeatherRepository

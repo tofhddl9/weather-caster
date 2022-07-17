@@ -1,8 +1,8 @@
 package com.lgtm.weathercaster.presentation.widgets.viewholder
 
 import androidx.viewbinding.ViewBinding
-import com.lgtm.weathercaster.data.vo.item.CurrentWeatherSummaryVO
-import com.lgtm.weathercaster.data.vo.item.WeatherItemVO
+import com.lgtm.weathercaster.domain.vo.item.CurrentWeatherSummaryVO
+import com.lgtm.weathercaster.domain.vo.item.WeatherItemVO
 import com.lgtm.weathercaster.databinding.ViewCurrentWeatherSummaryBinding
 import com.lgtm.weathercaster.presentation.widgets.WeatherViewType
 import kotlin.math.roundToInt

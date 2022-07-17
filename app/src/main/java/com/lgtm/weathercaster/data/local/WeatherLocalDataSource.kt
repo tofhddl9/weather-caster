@@ -2,7 +2,7 @@ package com.lgtm.weathercaster.data.local
 
 import com.lgtm.weathercaster.data.WeatherDataSource
 import com.lgtm.weathercaster.data.mapper.mapToWeatherEntity
-import com.lgtm.weathercaster.data.vo.WeatherVO
+import com.lgtm.weathercaster.domain.vo.WeatherVO
 import com.lgtm.weathercaster.data.mapper.mapToWeatherVO
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher

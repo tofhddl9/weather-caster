@@ -1,6 +1,6 @@
 package com.lgtm.weathercaster.data
 
-import com.lgtm.weathercaster.data.vo.WeatherVO
+import com.lgtm.weathercaster.domain.vo.WeatherVO
 
 interface WeatherDataSource {
 

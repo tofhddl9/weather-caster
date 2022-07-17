@@ -1,7 +1,7 @@
-package com.lgtm.weathercaster.data.vo.item
+package com.lgtm.weathercaster.domain.vo.item
 
-import com.lgtm.weathercaster.data.vo.WeatherDataVO
-import com.lgtm.weathercaster.data.vo.WeatherVO
+import com.lgtm.weathercaster.domain.vo.WeatherDataVO
+import com.lgtm.weathercaster.domain.vo.WeatherVO
 import com.lgtm.weathercaster.presentation.widgets.WeatherViewType
 
 data class DailyWeatherVO(

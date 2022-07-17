@@ -1,6 +1,6 @@
 package com.lgtm.weathercaster.domain
 
-import com.lgtm.weathercaster.data.vo.WeatherVO
+import com.lgtm.weathercaster.domain.vo.WeatherVO
 import com.lgtm.weathercaster.utils.Response
 import kotlinx.coroutines.flow.Flow
 

@@ -3,9 +3,9 @@ package com.lgtm.weathercaster.data.mapper
 import com.lgtm.weathercaster.data.local.WeatherData
 import com.lgtm.weathercaster.data.local.WeatherEntity
 import com.lgtm.weathercaster.data.local.WeatherMetaData
-import com.lgtm.weathercaster.data.vo.WeatherDataVO
-import com.lgtm.weathercaster.data.vo.WeatherMetaDataVO
-import com.lgtm.weathercaster.data.vo.WeatherVO
+import com.lgtm.weathercaster.domain.vo.WeatherDataVO
+import com.lgtm.weathercaster.domain.vo.WeatherMetaDataVO
+import com.lgtm.weathercaster.domain.vo.WeatherVO
 
 fun WeatherEntity.mapToWeatherVO() = WeatherVO(
     dt = dt,

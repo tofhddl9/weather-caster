@@ -1,4 +1,4 @@
-package com.lgtm.weathercaster.data.vo
+package com.lgtm.weathercaster.domain.vo
 
 data class WeatherVO(
     val dt: Long = 0,

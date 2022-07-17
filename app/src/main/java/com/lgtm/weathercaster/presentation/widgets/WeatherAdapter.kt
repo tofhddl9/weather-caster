@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.lgtm.weathercaster.data.vo.item.WeatherItemVO
+import com.lgtm.weathercaster.domain.vo.item.WeatherItemVO
 import com.lgtm.weathercaster.databinding.ViewCurrentWeatherSummaryBinding
 import com.lgtm.weathercaster.databinding.ViewDailyWeatherSummaryBinding
 import com.lgtm.weathercaster.databinding.ViewHourlyWeatherSummaryBinding
